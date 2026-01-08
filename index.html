@@ -73,19 +73,20 @@
             content: '';
             position: absolute;
             inset: 0;
-            background-color: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(5px);
+            background-color: rgba(244, 250, 250, 0.2);
+            backdrop-filter: blur(6px);
             -webkit-backdrop-filter: blur(10px);
             z-index: -1;
         }
 
         .gate-envelope-container {
             position: relative;
+            isolation: isolate;
             width: 88%;
             max-width: 500px;
             padding: 5rem 1.5rem;
             text-align: center;
-            background-color: #fcf6ed;
+            background-color: #fffbf6;
             background-image: url('https://www.transparenttextures.com/patterns/natural-paper.png');
             background-blend-mode: multiply;
 
@@ -93,12 +94,35 @@
                 inset 0 0 60px rgba(166, 138, 86, 0.05),
                 0 40px 80px rgba(60, 50, 40, 0.2);
 
-            border: 1px solid rgba(255, 255, 255, 1);
-            outline: 0.5px solid rgba(166, 138, 86, 0.15);
+            border: 0.5px solid rgb(255, 209, 244);
+            outline: 2.5px solid rgba(255, 167, 3, 0.15);
             outline-offset: -12px;
             transition: all 0.8s ease;
         }
 
+        .gate-envelope-container::before {
+            content: '';
+            position: absolute;
+            inset: 12px;
+
+            border: 1.5px solid transparent;
+            background:
+                linear-gradient(#fcf6ed, #fcf6ed) padding-box,
+                linear-gradient(45deg,
+                    #a67c00 0%,
+                    #bf953f 20%,
+                    #fcf6ba 45%,
+                    #b38728 55%,
+                    #fbf5b7 80%,
+                    #aa771c 100%) border-box;
+
+
+            box-shadow:
+                inset 0 1px 1px rgba(255, 255, 255, 0.8),
+                0 1px 2px rgba(0, 0, 0, 0.1);
+            z-index: -1;
+            pointer-events: none;
+        }
 
         .gate-label {
             font-family: var(--french-serif);
@@ -112,7 +136,7 @@
 
         .gate-names {
             font-family: var(--script-font);
-            font-size: 5.8rem;
+            font-size: 6.9rem;
             text-align: center;
             line-height: 1.1;
             margin: 1.5rem 0;
@@ -120,7 +144,7 @@
 
         .gate-names span {
             display: block;
-            padding-bottom: 0.15em;
+            padding-bottom: 0.05em;
             margin-bottom: -0.1em;
 
             font-family: var(--script-font);
@@ -148,7 +172,7 @@
 
         @media (max-width: 768px) {
             .gate-names {
-                font-size: 3rem;
+                font-size: 4.5rem;
             }
 
             .gate-names .gate-ampersand {
@@ -167,6 +191,15 @@
                 font-size: 5rem;
                 margin: 2.5rem 0;
             }
+        }
+
+        .gate-subtitle {
+            font-family: 'Georgia', serif;
+            font-size: 0.65rem;
+            color: #5d534a;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+            font-style: italic;
         }
 
         .gate-details {
@@ -233,7 +266,7 @@
             background-image: url('1485102057.jpg');
             background-size: cover;
             background-position: center;
-            filter: saturate(0.8) contrast(1.02) sepia(0.2);
+            filter: saturate(1.2) contrast(1.02) sepia(0.2);
             opacity: 0.4;
         }
 
@@ -388,6 +421,23 @@
             transform: translateY(-3px);
             box-shadow: 0 15px 40px rgba(166, 138, 86, 0.4);
         }
+
+        .gate-petal-container {
+            position: absolute;
+            top: -70px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 280px;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        @media (max-width: 768px) {
+            .gate-petal-container {
+                width: 240px;
+                top: -55px;
+            }
+        }
     </style>
 </head>
 
@@ -417,9 +467,11 @@
         <div class="absolute inset-0 bg-black/30 z-0"></div>
 
         <div class="gate-envelope-container reveal active z-10">
+            <div class="gate-petal-container">
+                <img src="fl-removebg.png" alt="Petal" class="gate-petal">
+            </div>
 
-            <div class="gate-subtitle">Cordially Invited To The Wedding Of</div>
-            <!-- <div class="gate-line"></div> -->
+            <p class="gate-label">The Wedding Invitation</p>
 
             <h1 class="gate-names">
                 <span>Yilin</span>
@@ -427,13 +479,11 @@
                 <span>Zheyu</span>
             </h1>
 
+            <div class="gate-details">
+                <p class="gate-date">2026 . 06 . 26</p>
+                <p class="gate-location">London</p>
+            </div>
 
-            <p class="gate-date">
-                26 . 06 . 2026 — London
-            </p>
-
-            <p class="gate-hint animate-pulse">Click to Reveal</p>
-            <div class="gate-line opacity-40"></div>
         </div>
     </div>
 
@@ -868,7 +918,7 @@
 
         const navbar = document.getElementById('navbar');
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 150) navbar.classList.add('scrolled');
+            if (window.scrollY > 80) navbar.classList.add('scrolled');
             else navbar.classList.remove('scrolled');
         });
 
