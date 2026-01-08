@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yilin & Zheyu - Wedding 2026</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="preload" as="image" href="1485102057.jpg">
+    <link rel="preload" as="image" href="chapel.jpg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --script-font: 'Pinyon Script', cursive;
+            --french-serif: 'Cinzel Decorative', serif;
+            --body-serif: 'Cormorant Garamond', serif;
+            --m-pink: #C8A298;
+            --m-cream: #FAF7F2;
+            --m-paper: #fdfbf7;
+            --m-gray: #353535;
+            --m-gold: #A68A56;
+        }
+
+        body {
+            background-color: var(--m-cream);
+            color: var(--m-gray);
+            font-family: var(--body-serif);
+            font-weight: 400;
+            overflow-x: hidden;
+            margin: 0;
+        }
+
+        .font-script {
+            font-family: var(--script-font);
+        }
+
+        .font-french {
+            font-family: var(--french-serif);
+        }
+
+        .italic-serif {
+            font-family: var(--body-serif);
+            font-style: italic;
+        }
+
+        #stardust-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 60;
+        }
+
+        #gate-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: url('flower.jpg');
+            background-size: cover;
+            background-position: center;
+            transition: all 1.8s cubic-bezier(0.7, 0, 0.3, 1);
+            cursor: pointer;
+        }
+
+        #gate-overlay::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-color: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: -1;
+        }
+
+        .gate-envelope-container {
+            position: relative;
+            width: 88%;
+            max-width: 500px;
+            padding: 5rem 1.5rem;
+            text-align: center;
+            background-color: #fcf6ed;
+            background-image: url('https://www.transparenttextures.com/patterns/natural-paper.png');
+            background-blend-mode: multiply;
+
+            box-shadow:
+                inset 0 0 60px rgba(166, 138, 86, 0.05),
+                0 40px 80px rgba(60, 50, 40, 0.2);
+
+            border: 1px solid rgba(255, 255, 255, 1);
+            outline: 0.5px solid rgba(166, 138, 86, 0.15);
+            outline-offset: -12px;
+            transition: all 0.8s ease;
+        }
+
+
+        .gate-label {
+            font-family: var(--french-serif);
+            font-size: 0.5rem;
+            letter-spacing: 0.5em;
+            color: #A68A56;
+            margin-bottom: 2rem;
+            opacity: 0.7;
+            text-transform: uppercase;
+        }
+
+        .gate-names {
+            font-family: var(--script-font);
+            font-size: 5.8rem;
+            text-align: center;
+            line-height: 1.1;
+            margin: 1.5rem 0;
+        }
+
+        .gate-names span {
+            display: block;
+            padding-bottom: 0.15em;
+            margin-bottom: -0.1em;
+
+            font-family: var(--script-font);
+            background: linear-gradient(to bottom,
+                    #91743a 0%,
+                    #fddc8e 25%,
+                    #a68a56 50%,
+                    #ffdf87 75%,
+                    #91743a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0px 2px 2px rgba(166, 138, 86, 0.2));
+            background-size: 200% auto;
+            animation: goldShine 6s linear infinite;
+
+            overflow: visible;
+        }
+
+        .gate-names .gate-ampersand {
+            display: block;
+            font-size: 1.5rem;
+            margin: 0.2rem 0;
+            -webkit-text-fill-color: #a68a56;
+        }
+
+        @media (max-width: 768px) {
+            .gate-names {
+                font-size: 3rem;
+            }
+
+            .gate-names .gate-ampersand {
+                font-size: 1.2rem;
+            }
+        }
+
+        @keyframes goldShine {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .gate-names {
+                font-size: 5rem;
+                margin: 2.5rem 0;
+            }
+        }
+
+        .gate-details {
+            margin-top: 3rem;
+            font-family: var(--french-serif);
+        }
+
+        .gate-date {
+            font-size: 0.8rem;
+            letter-spacing: 0.4em;
+            color: #444;
+            margin-bottom: 0.5rem;
+        }
+
+        .gate-location {
+            font-size: 0.65rem;
+            letter-spacing: 0.5em;
+            color: #A68A56;
+            text-transform: uppercase;
+        }
+
+        .gate-hint {
+            position: absolute;
+            bottom: 2.5rem;
+            left: 0;
+            right: 0;
+            font-family: var(--body-serif);
+            font-size: 10px;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: #ccc;
+        }
+
+        .gate-line {
+            width: 60px;
+            height: 1px;
+
+            background: linear-gradient(to right,
+                    transparent,
+                    rgba(166, 138, 86, 0.6),
+                    transparent);
+            margin: 0 auto;
+
+            box-shadow: 0 0.5px 0px rgba(255, 255, 255, 0.8);
+        }
+
+        @keyframes goldShine {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        .overlay-hidden {
+            opacity: 0;
+            transform: scale(1.1);
+            transition: all 1.8s cubic-bezier(0.7, 0, 0.3, 1);
+            filter: blur(20px);
+            pointer-events: none;
+        }
+
+        .oil-painting-shared {
+            position: absolute;
+            inset: 0;
+            background-image: url('1485102057.jpg');
+            background-size: cover;
+            background-position: center;
+            filter: saturate(0.8) contrast(1.02) sepia(0.2);
+            opacity: 0.4;
+        }
+
+        .canvas-texture {
+            position: absolute;
+            inset: 0;
+            background-image: url('https://www.transparenttextures.com/patterns/canvas-orange.png');
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 2rem;
+            z-index: 200;
+            background: rgba(250, 247, 242, 0.0);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        nav.scrolled {
+            background: rgba(250, 247, 242, 0.98);
+            backdrop-filter: blur(20px);
+            padding: 0.8rem 1rem;
+        }
+
+        nav .nav-link {
+            font-size: 11px;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            margin: 0 1.25rem;
+            opacity: 0.6;
+            transition: all 0.3s;
+            font-family: var(--french-serif);
+            color: var(--m-gray);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(15px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .lang-en [data-lang="zh"],
+        .lang-zh [data-lang="en"] {
+            display: none;
+        }
+
+        .copy-card {
+
+            background: rgba(255, 255, 255, 0.6);
+
+            transform: translateZ(0);
+            backface-visibility: hidden;
+
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 4rem 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            max-width: 650px;
+            margin: 0 auto;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.08);
+        }
+
+        .section-title {
+            letter-spacing: 0.4em;
+            font-weight: 700;
+            font-family: var(--french-serif);
+        }
+
+        .chibi-couple {
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .chibi-couple.happy {
+            transform: translateY(-15px) scale(1.05);
+        }
+
+        .chibi-couple.sad {
+            transform: translateY(5px) scale(0.95) rotate(-2deg);
+            filter: grayscale(30%) opacity(0.8);
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        .active-toggle {
+            background-color: #353535 !important;
+            color: white !important;
+            border-color: #353535 !important;
+        }
+
+        .rsvp-step {
+            transition: all 0.5s ease;
+        }
+
+        .btn-fancy-rsvp {
+            display: inline-block;
+            position: relative;
+            padding: 1.2rem 4rem;
+            color: #fff !important;
+            font-family: var(--french-serif);
+            font-size: 0.85rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            transition: transform 0.5s ease;
+
+            background: linear-gradient(135deg, #a68a56 0%, #d4bc8d 50%, #a68a56 100%);
+            border: none;
+            border-radius: 2px;
+            box-shadow: 0 10px 30px rgba(166, 138, 86, 0.25);
+            cursor: pointer;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn-fancy-rsvp::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: var(--shine-pos, -150%);
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(to right,
+                    transparent,
+                    rgba(255, 255, 255, 0.5),
+                    transparent);
+            transform: skewX(-25deg);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .btn-fancy-rsvp:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(166, 138, 86, 0.4);
+        }
+    </style>
+</head>
+
+<body class="lang-zh painting-active">
+    <canvas id="stardust-canvas"></canvas>
+
+    <nav id="navbar" class="opacity-0 pointer-events-none transition-all flex justify-center items-center">
+        <div class="hidden md:flex">
+            <a href="#home" class="nav-link">Home</a>
+            <a href="#story" class="nav-link">Our Love Story</a>
+            <a href="#info" class="nav-link">Information</a>
+            <a href="#faq" class="nav-link">FAQ</a>
+            <a href="#rsvp" class="nav-link">RSVP</a>
+        </div>
+        <div
+            class="flex md:hidden space-x-5 text-[10px] tracking-[0.2em] font-bold text-stone-700 opacity-90 font-french">
+            <a href="#home">HOME</a>
+            <a href="#story">STORY</a>
+            <a href="#info">INFO</a>
+            <a href="#faq" class="nav-link">FAQ</a>
+            <a href="#rsvp">RSVP</a>
+        </div>
+
+    </nav>
+
+    <div id="gate-overlay" onclick="enterSite()">
+        <div class="absolute inset-0 bg-black/30 z-0"></div>
+
+        <div class="gate-envelope-container reveal active z-10">
+
+            <div class="gate-subtitle">Cordially Invited To The Wedding Of</div>
+            <!-- <div class="gate-line"></div> -->
+
+            <h1 class="gate-names">
+                <span>Yilin</span>
+                <span class="gate-ampersand">&</span>
+                <span>Zheyu</span>
+            </h1>
+
+
+            <p class="gate-date">
+                26 . 06 . 2026 — London
+            </p>
+
+            <p class="gate-hint animate-pulse">Click to Reveal</p>
+            <div class="gate-line opacity-40"></div>
+        </div>
+    </div>
+
+    <header id="home" class="relative min-h-screen flex items-center justify-center overflow-hidden py-24 px-4">
+        <div class="oil-painting-shared oil-painting-bg"></div>
+        <div class="canvas-texture"></div>
+        <div class="absolute inset-0 bg-white/5 backdrop-blur-[1px]"></div>
+
+        <div class="relative z-10 text-center active">
+            <div class="copy-card relative p-8 md:p-16 border border-stone-200 bg-white/30 backdrop-blur-xl shadow-2xl">
+
+                <div class="absolute inset-3 border border-[#A68A56]/20 pointer-events-none"></div>
+
+                <div class="mb-12">
+                    <h3 class="font-french text-4xl md:text-6xl tracking-[0.2em] uppercase
+                           bg-gradient-to-b from-[#997b4a] via-[#f9e9be] to-[#997b4a] 
+                           bg-clip-text text-transparent 
+                           filter drop-shadow-[0_1px_1px_rgba(166,138,86,0.3)]">
+                        Save the Date
+                    </h3>
+                    <div class="flex items-center justify-center space-x-4 mt-4 opacity-30">
+                        <div class="w-10 h-[0.5px] bg-[#A68A56]"></div>
+                        <div class="rotate-45 w-1.5 h-1.5 bg-[#A68A56]"></div>
+                        <div class="w-10 h-[0.5px] bg-[#A68A56]"></div>
+                    </div>
+                </div>
+
+                <div class="space-y-10 md:space-y-12">
+                    <div class="space-y-4">
+                        <div>
+                            <p class="font-script text-4xl md:text-5xl text-stone-800 leading-none">Hello, my most
+                                important “you”</p>
+                            <p class="font-serif text-[12px] tracking-[0.3em] text-stone-400 mt-2 uppercase">
+                                你好呀，我最重要的「你」</p>
+                        </div>
+                        <div>
+                            <p class="font-script text-4xl md:text-5xl text-stone-800 leading-none">“I” am becoming “we”
+                            </p>
+                            <p class="font-serif text-[12px] tracking-[0.3em] text-stone-400 mt-2 uppercase">
+                                有个大消息，「我」要变成「我们」啦！</p>
+                        </div>
+                    </div>
+
+                    <div class="py-6 px-4">
+                        <p class="italic-serif italic text-lg text-stone-700 leading-relaxed mb-2">
+                            Do you remember? The world is big and complicated,<br class="hidden md:block">
+                            but thankfully, I had you.
+                        </p>
+                        <p class="font-serif text-[13px] text-stone-600 mb-4">还记得吗？世界好大好复杂，但幸好有你们</p>
+                        <p class="text-sm text-stone-500 font-serif leading-relaxed">
+                            You were my heroes, believing in my magic and helping me shape my own fairytale.<br>
+                            <span class="text-stone-400 text-xs mt-1 block tracking-wider">做我的英雄，相信我会魔法，书写我的童话</span>
+                        </p>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="px-6">
+                            <p class="font-serif text-[14px] md:text-[15px] text-stone-600 leading-relaxed italic">
+                                If everything allows, we hope this chapter, too, <br class="hidden md:block">
+                                will be fortunate enough to have “you” in it.
+                            </p>
+                            <p class="font-serif text-[11px] text-stone-400 mt-2">如果一切允许，希望这个篇章也能有幸有「你」的参与</p>
+                        </div>
+
+                        <div class="pt-4 space-y-4">
+                            <p class="font-french text-sm tracking-[0.3em] text-[#A68A56] uppercase">Get ready for your
+                                blessings</p>
+                            <div class="relative inline-block px-8">
+                                <p class="font-script text-4xl md:text-5xl text-stone-800 relative z-10">
+                                    Our stories — still unfolding…
+                                </p>
+                                <div class="absolute bottom-1 left-0 w-full h-2 bg-[#C8A298]/10 -rotate-1"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-8">
+                        <div class="opacity-50 mb-10">
+                            <div class="flex items-center justify-center space-x-3 mb-2">
+                                <div class="w-4 h-[1px] bg-stone-300"></div>
+                                <p class="font-french text-[9px] tracking-[0.4em]">To our beloved ones</p>
+                                <div class="w-4 h-[1px] bg-stone-300"></div>
+                            </div>
+                            <p class="font-serif text-[11px] text-stone-600">致陪伴我们长大成人的你</p>
+                        </div>
+
+                        <div class="reveal delay-300">
+                            <a href="#rsvp" class="btn-fancy-rsvp">
+                                R.S.V.P.
+                                <span class="block text-[9px] tracking-widest mt-1 opacity-60 font-serif">请柬回复</span>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </header>
+    <section id="story" class="py-20 md:py-32 px-8 bg-white">
+        <div class="max-w-4xl mx-auto">
+            <h2
+                class="font-french text-3xl md:text-5xl mb-16 md:mb-24 font-bold text-[#A68A56] tracking-widest uppercase">
+                Our Love Story
+            </h2>
+
+            <div class="space-y-12 md:space-y-24 border-l border-stone-100 ml-4 md:ml-0 pl-8 md:pl-0">
+
+                <div class="reveal relative">
+                    <div
+                        class="font-french text-6xl md:text-[8rem] opacity-[0.04] mb-2 md:mb-4 text-stone-900 font-bold leading-none">
+                        2014
+                    </div>
+                    <div class="md:text-right md:pr-12 -mt-10 md:-mt-20 relative z-10">
+                        <div class="text-base md:text-lg tracking-[0.1em] leading-relaxed text-stone-600 font-serif">
+                            面对面的教室，我们还是不太熟的隔壁班同学...
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reveal relative">
+                    <div
+                        class="font-french text-6xl md:text-[8rem] opacity-[0.04] mb-2 md:mb-4 text-right text-stone-900 font-bold leading-none">
+                        2017
+                    </div>
+                    <div class="md:text-left md:pl-12 -mt-10 md:-mt-20 relative z-10">
+                        <div class="text-base md:text-lg tracking-[0.1em] leading-relaxed text-stone-600 font-serif">
+                            中考的阴差阳错把我们送进了一个班...
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reveal relative">
+                    <div
+                        class="font-french text-6xl md:text-[8rem] opacity-[0.04] mb-2 md:mb-4 text-stone-900 font-bold leading-none">
+                        2021
+                    </div>
+                    <div class="md:text-right md:pr-12 -mt-10 md:-mt-20 relative z-10">
+                        <div class="text-base md:text-lg tracking-[0.1em] leading-relaxed text-stone-700 font-serif">
+                            一场雨，一把伞，机缘巧合我们从上海到了伦敦...
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reveal relative">
+                    <div
+                        class="font-french text-6xl md:text-[8rem] opacity-[0.04] mb-2 md:mb-4 text-right text-stone-900 font-bold leading-none">
+                        2022
+                    </div>
+                    <div class="md:text-left md:pl-12 -mt-10 md:-mt-20 relative z-10">
+                        <div class="text-base md:text-lg tracking-[0.1em] leading-relaxed text-stone-600 font-serif">
+                            我们上山下海睡机场，试图踏遍欧洲大陆，经历了数不清的探险<br>
+                            也几经辗转，跌宕起伏，好不容易回到了上海...
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reveal relative">
+                    <div
+                        class="font-french text-6xl md:text-[8rem] opacity-[0.04] mb-2 md:mb-4 text-stone-900 font-bold leading-none">
+                        2023
+                    </div>
+                    <div class="md:text-right md:pr-12 -mt-10 md:-mt-20 relative z-10">
+                        <div class="text-base md:text-lg tracking-[0.1em] leading-relaxed text-stone-600 font-serif">
+                            我们成了打工人，共同许愿能够快快攒下一笔用来任性的钱...
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reveal relative">
+                    <div
+                        class="font-french text-6xl md:text-[8rem] opacity-[0.04] mb-2 md:mb-4 text-right text-stone-900 font-bold leading-none">
+                        2025
+                    </div>
+                    <div class="md:text-left md:pl-12 -mt-10 md:-mt-20 relative z-10">
+                        <div class="text-base md:text-lg tracking-[0.1em] leading-relaxed text-stone-600 font-serif">
+                            我们有新家了！<br>
+                            我们精心绘制每一张设计图纸...一鼓作气花光了2年来攒的积蓄！
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reveal relative">
+                    <div
+                        class="font-french text-6xl md:text-[8rem] opacity-[0.04] mb-2 md:mb-4 text-stone-900 font-bold leading-none">
+                        2026
+                    </div>
+                    <div class="md:text-right md:pr-12 -mt-10 md:-mt-20 relative z-10">
+                        <div class="text-base md:text-lg tracking-[0.1em] leading-relaxed text-stone-700 font-serif">
+                            可能...是时候..再次牵起对方的手...
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reveal text-center pt-20 md:pt-32 border-t border-stone-100">
+                    <div class="space-y-4 md:space-y-6">
+                        <p class="text-stone-400 font-serif italic text-sm md:text-base">
+                            我们或许不知道明天的路要怎么走，但...
+                        </p>
+                        <p
+                            class="text-lg md:text-2xl font-light tracking-[0.2em] md:tracking-[0.4em] text-stone-800 font-serif italic">
+                            “只要一起走，就没什么好怕的...”
+                        </p>
+                        <p class="font-script text-3xl md:text-4xl text-stone-400 pt-4">
+                            吧...
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="info" class="relative py-64 bg-[#faf7f2] text-stone-800 overflow-hidden">
+        <div class="absolute inset-0 bg-cover bg-center opacity-70"
+            style="background-image: url('chapel.jpg'); filter: sepia(10%) brightness(1.05) contrast(0.95);"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-[#faf7f2]/80 via-[#faf7f2]/40 to-[#faf7f2]/90"></div>
+
+        <div class="relative z-10 max-w-3xl mx-auto px-6 text-center reveal">
+            <h2 class="font-french text-4xl md:text-5xl mb-20 font-bold text-[#A68A56] tracking-widest uppercase">
+                Wedding Information</h2>
+            <div class="space-y-12">
+                <div class="pt-12 border-t border-stone-300/50">
+                    <p class="font-french text-3xl md:text-5xl tracking-[0.1em] mb-4 text-stone-900 font-bold">KING'S
+                        COLLEGE CHAPEL</p>
+                    <p class="text-stone-600 italic text-sm md:text-base tracking-[0.4em] mb-12">STRAND, LONDON WC2R 2LS
+                    </p>
+                    <div class="w-12 h-[1px] bg-[#A68A56] mx-auto"></div>
+                </div>
+                <p class="tracking-[0.3em] text-sm text-stone-700 pt-8 font-medium font-french">JUNE 26, 2026 · LONDON
+                </p>
+                <p class="tracking-[0.3em] text-sm text-stone-700 pt-8 font-medium font-french">
+                    请收藏这个网址，我们将不定期更新婚礼的最新安排～
+
+                </p>
+            </div>
+        </div>
+    </section>
+    <section id="faq" class="py-48 px-6 max-w-5xl mx-auto">
+        <p class="text-center font-serif text-stone-400 mb-4 text-sm tracking-widest reveal">
+            如果你还有些想问的问题，可以看看这里有没有回答～
+        </p>
+
+        <h2
+            class="serif-primary text-4xl text-center mb-32 font-light italic-serif tracking-[0.2em] section-title text-uppercase">
+            FAQ
+        </h2>
+
+        <div class="grid md:grid-cols-2 gap-x-24 gap-y-24 text-stone-800">
+            <div class="reveal border-l-2 border-stone-200 pl-8">
+                <p class="serif-primary italic text-sm text-stone-400 mb-4 tracking-widest uppercase">Question 01</p>
+                <p class="font-bold mb-4 text-xl md:text-2xl">我们最迟需要在什么时候回复是否出席？</p>
+                <p class="text-sm md:text-base opacity-80 leading-relaxed font-normal tracking-widest">
+                    考虑到前往伦敦需要办理英国签证，请最迟在【2026年2月28日】前回复是否出席。
+                </p>
+            </div>
+
+            <div class="reveal border-l-2 border-stone-200 pl-8">
+                <p class="serif-primary italic text-sm text-stone-400 mb-4 tracking-widest uppercase">Question 02</p>
+                <p class="font-bold mb-4 text-xl md:text-2xl">往返的机票和酒店住宿费用是自己承担吗？</p>
+                <p class="text-sm md:text-base opacity-80 leading-relaxed font-normal tracking-widest">
+                    我们装修已经吃完了存粮，钱包不允许我们再为大家提供机酒啦。但是，我们会及时在网站上更新一些签证、机票、住宿以及英国旅行的信息，敬请期待～
+                </p>
+            </div>
+
+            <div class="reveal border-l-2 border-stone-200 pl-8">
+                <p class="serif-primary italic text-sm text-stone-400 mb-4 tracking-widest uppercase">Question 03</p>
+                <p class="font-bold mb-4 text-xl md:text-2xl">仪式是否有着装要求？应该穿什么？</p>
+                <p class="text-sm md:text-base opacity-80 leading-relaxed font-normal tracking-widest">
+                    仪式将在King's College, London校内的【小教堂】举办。因此，请一定穿着【正装礼服】。
+                </p>
+            </div>
+
+            <div class="reveal border-l-2 border-stone-200 pl-8">
+                <p class="serif-primary italic text-sm text-stone-400 mb-4 tracking-widest uppercase">Question 04</p>
+                <p class="font-bold mb-4 text-xl md:text-2xl">什么时候能知道婚礼的具体行程？</p>
+                <p class="text-sm md:text-base opacity-80 leading-relaxed font-normal tracking-widest">
+                    目前本项目还在融资阶段，我们预计将在每月末在本网站上更新安排，敬请关注！
+                </p>
+            </div>
+
+            <div class="reveal border-l-2 border-stone-200 pl-8">
+                <p class="serif-primary italic text-sm text-stone-400 mb-4 tracking-widest uppercase">Question 05</p>
+                <p class="font-bold mb-4 text-xl md:text-2xl">如有其他问题，应联系谁？</p>
+                <p class="text-sm md:text-base opacity-80 leading-relaxed font-normal tracking-widest">
+                    如果你联系不到新郎新娘，那就找那个给你发邀请函的上线，比如新郎新娘的爸爸妈妈，嘿嘿。
+                </p>
+            </div>
+        </div>
+    </section>
+    <section id="rsvp" class="py-32 md:py-48 bg-white border-t border-stone-100 relative overflow-hidden">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-12 md:gap-24 items-start">
+
+                <div class="reveal sticky top-32 flex justify-center md:justify-end">
+                    <div class="relative w-64 h-64 md:w-80 md:h-80">
+                        <div class="absolute inset-0 bg-stone-50 rounded-full scale-125 -z-10"></div>
+                        <img src="1.png" alt="Couple"
+                            class="w-full h-full object-contain filter drop-shadow-xl chibi-couple">
+                    </div>
+                </div>
+
+                <div
+                    class="reveal bg-white border border-stone-100 p-8 md:p-12 shadow-sm rounded-2xl min-h-[500px] flex flex-col justify-center">
+
+                    <div id="rsvp-step-1" class="rsvp-step space-y-8">
+                        <h3 class="text-xl font-bold text-stone-800 font-french tracking-widest">Enter your details</h3>
+                        <div id="guest-list" class="space-y-6">
+                            <div class="guest-entry space-y-2">
+                                <label
+                                    class="block text-[11px] uppercase tracking-widest text-stone-500 font-bold font-french">Name</label>
+                                <input type="text" name="guest-name[]" placeholder="John Smith"
+                                    class="w-full border border-stone-200 rounded-lg px-4 py-3 outline-none focus:border-stone-400 transition text-sm">
+                            </div>
+                        </div>
+
+                        <div class="space-y-2">
+                            <label
+                                class="block text-[11px] uppercase tracking-widest text-stone-500 font-bold font-french">Phone
+                                number</label>
+                            <div class="flex space-x-2">
+                                <select
+                                    class="bg-stone-50 border border-stone-200 rounded-lg px-2 text-xs outline-none">
+                                    <option value="us+1">us +1</option>
+                                    <option value="cn+86">cn +86</option>
+                                    <option value="uk+44">uk +44</option>
+                                </select>
+                                <input type="tel" placeholder="Phone number"
+                                    class="flex-1 border border-stone-200 rounded-lg px-4 py-3 text-sm outline-none">
+                            </div>
+                        </div>
+
+                        <button onclick="addGuest()"
+                            class="w-full py-3 text-xs text-stone-500 border-2 border-dashed border-stone-100 rounded-lg hover:bg-stone-50 transition font-french tracking-widest">
+                            + Add another person
+                        </button>
+
+                        <button onclick="goToStep(2)"
+                            class="w-full bg-stone-900 text-white py-4 rounded-lg text-xs tracking-widest uppercase hover:opacity-90 transition shadow-lg font-french">
+                            Next Step
+                        </button>
+                    </div>
+
+                    <div id="rsvp-step-2" class="rsvp-step hidden space-y-8">
+                        <h3 class="text-xl font-bold text-stone-800 font-french tracking-widest">Events attending?</h3>
+
+                        <div class="space-y-6 divide-y divide-stone-100">
+                            <div class="pt-6 space-y-4">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h4 class="font-bold text-stone-800 font-french">Reception</h4>
+                                        <p class="text-xs text-stone-400 mt-1">📅 26.06.26, 12:00pm</p>
+                                    </div>
+                                </div>
+                                <div class="flex space-x-2">
+                                    <button onclick="selectEvent(this, 'attending')"
+                                        class="flex-1 py-2 text-xs rounded-full border border-stone-200 hover:bg-stone-50 transition active-toggle font-french tracking-widest">Attending</button>
+                                    <button onclick="selectEvent(this, 'not')"
+                                        class="flex-1 py-2 text-xs rounded-full border border-stone-200 hover:bg-stone-50 transition font-french tracking-widest">Not
+                                        Attending</button>
+                                </div>
+                            </div>
+
+                            <div class="pt-6 space-y-4">
+                                <h4 class="font-bold text-stone-800 font-french">Ceremony</h4>
+                                <p class="text-xs text-stone-400">📅 26.06.26, 2:00pm</p>
+                                <div class="flex space-x-2">
+                                    <button onclick="selectEvent(this, 'attending')"
+                                        class="flex-1 py-2 text-xs rounded-full border border-stone-200 hover:bg-stone-50 transition active-toggle font-french tracking-widest">Attending</button>
+                                    <button onclick="selectEvent(this, 'not')"
+                                        class="flex-1 py-2 text-xs rounded-full border border-stone-200 hover:bg-stone-50 transition font-french tracking-widest">Not
+                                        Attending</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex space-x-4 pt-6">
+                            <button onclick="goToStep(1)"
+                                class="flex-1 py-4 text-xs tracking-widest uppercase border border-stone-200 rounded-lg text-stone-400 hover:bg-stone-50 transition font-french">Back</button>
+                            <button onclick="goToStep(3)"
+                                class="flex-2 bg-stone-900 text-white px-12 py-4 rounded-lg text-xs tracking-widest uppercase hover:opacity-90 transition shadow-lg font-french">Submit
+                                RSVP</button>
+                        </div>
+                    </div>
+
+                    <div id="rsvp-step-3"
+                        class="rsvp-step hidden text-center space-y-8 animate-in fade-in zoom-in duration-500">
+                        <div
+                            class="bg-green-50 border border-green-200 text-green-800 py-6 px-6 rounded-lg text-sm font-french tracking-widest">
+                            Thank you! We can't wait to celebrate with you.
+                        </div>
+                        <a href="#home" onclick="resetForm()"
+                            class="block w-full py-4 text-[10px] tracking-widest border border-stone-200 rounded-lg uppercase hover:bg-stone-50 transition font-french">←
+                            Back to website</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <footer class="py-24 text-center text-[10px] tracking-[0.6em] opacity-30 uppercase font-french">
+        Yilin & Zheyu · London · June 26, 2026
+    </footer>
+
+    <script>
+        const canvas = document.getElementById('stardust-canvas');
+        const ctx = canvas.getContext('2d');
+        let points = [];
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resize);
+        resize();
+        class Point {
+            constructor(x, y) {
+                this.x = x; this.y = y; this.size = Math.random() * 2;
+                this.speedX = (Math.random() - 0.5) * 0.3; this.speedY = Math.random() * 0.4 + 0.1;
+                this.alpha = Math.random() * 0.5 + 0.2; this.decay = Math.random() * 0.002 + 0.001;
+            }
+            update() { this.x += this.speedX; this.y += this.speedY; this.alpha -= this.decay; }
+            draw() { ctx.fillStyle = `rgba(200, 162, 152, ${this.alpha})`; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
+        }
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (Math.random() > 0.94) points.push(new Point(Math.random() * canvas.width, -10));
+            for (let i = 0; i < points.length; i++) {
+                points[i].update(); points[i].draw();
+                if (points[i].alpha <= 0) { points.splice(i, 1); i--; }
+            }
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 150) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
+        });
+
+        function enterSite() {
+            const overlay = document.getElementById('gate-overlay');
+            overlay.classList.add('overlay-hidden');
+
+            const navbar = document.getElementById('navbar');
+            navbar.classList.remove('opacity-0', 'pointer-events-none');
+
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 1800);
+
+            setTimeout(() => {
+                document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+            }, 500);
+        }
+        function updateRSVPShine() {
+            const rsvpBtn = document.querySelector('.btn-fancy-rsvp');
+            if (!rsvpBtn) return;
+
+            const rect = rsvpBtn.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+
+            if (rect.top < windowHeight && rect.bottom > 0) {
+                const scrollProgress = (windowHeight - rect.top) / (windowHeight + rect.height);
+
+
+                const shinePosition = -150 + (scrollProgress * 300);
+
+                rsvpBtn.style.setProperty('--shine-pos', `${shinePosition}%`);
+            }
+        }
+
+        window.addEventListener('scroll', updateRSVPShine);
+        window.addEventListener('load', updateRSVPShine);
+
+        function switchLang(lang) { document.body.className = 'lang-' + lang; }
+
+        function updateChibiEmotion(emotion) {
+            document.querySelectorAll('.chibi-couple').forEach(c => {
+                c.classList.remove('happy', 'sad');
+                c.classList.add(emotion);
+            });
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('active');
+            });
+        }, { threshold: 0.1 });
+
+        function goToStep(stepNumber) {
+            document.querySelectorAll('.rsvp-step').forEach(step => step.classList.add('hidden'));
+            document.getElementById(`rsvp-step-${stepNumber}`).classList.remove('hidden');
+            if (stepNumber === 3) { updateChibiEmotion('happy'); }
+        }
+
+        function addGuest() {
+            const guestList = document.getElementById('guest-list');
+            const newGuest = document.createElement('div');
+            newGuest.className = 'guest-entry space-y-2 pt-2 animate-in slide-in-from-top-2 duration-300';
+            newGuest.innerHTML = `
+                <label class="block text-[11px] uppercase tracking-widest text-stone-300 font-bold font-french">Additional Guest</label>
+                <input type="text" name="guest-name[]" placeholder="Guest Name" 
+                    class="w-full border border-stone-200 rounded-lg px-4 py-3 outline-none focus:border-stone-400 transition text-sm">
+            `;
+            guestList.appendChild(newGuest);
+        }
+
+        function selectEvent(btn, status) {
+            const parent = btn.parentElement;
+            parent.querySelectorAll('button').forEach(b => b.classList.remove('active-toggle'));
+            btn.classList.add('active-toggle');
+        }
+
+        function resetForm() {
+            setTimeout(() => {
+                goToStep(1);
+                updateChibiEmotion('neutral');
+            }, 1000);
+        }
+    </script>
+</body>
+
+</html>
