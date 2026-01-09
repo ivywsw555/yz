@@ -7,7 +7,7 @@
 
     <meta name="theme-color" content="#FAF7F2">
 
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <title>Yilin & Zheyu - Wedding 2026</title>
     <link
@@ -513,8 +513,8 @@
         @media (max-width: 767px) {
             .gate-image-container {
                 width: 95%;
-                height: 50vh;
-                height: 50dvh;
+                height: 55vh;
+                height: 55dvh;
                 overflow: hidden;
                 display: flex;
                 justify-content: center;
@@ -599,11 +599,102 @@
 
 
         }
+
+        .music-player {
+            position: fixed;
+            top: calc(1.2rem + env(safe-area-inset-top));
+            right: 1.5rem;
+            z-index: 2000;
+            cursor: pointer;
+        }
+
+        .music-disk {
+            width: 34px;
+            height: 34px;
+            background: #fffdfa;
+            border: 0.5px solid rgba(166, 138, 86, 0.4);
+            border-radius: 50%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+            animation: diskRotate 5s linear infinite;
+            animation-play-state: paused;
+        }
+
+        .playing .music-disk {
+            animation-play-state: running;
+        }
+
+        .disk-center {
+            width: 7px;
+            height: 7px;
+            background: var(--m-gold);
+            border-radius: 50%;
+            opacity: 0.8;
+            z-index: 2;
+        }
+
+        .music-disk::after {
+            content: '';
+            position: absolute;
+            top: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+
+            width: 4px;
+            height: 4px;
+            background: var(--m-gold);
+            border-radius: 50%;
+            opacity: 0.5;
+        }
+
+        @keyframes diskRotate {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .music-player {
+                right: 1.2rem;
+            }
+
+            .music-disk {
+                width: 30px;
+                height: 30px;
+            }
+
+            .disk-center {
+                width: 6px;
+                height: 6px;
+            }
+
+            .music-disk::after {
+                top: 5px;
+                width: 3.5px;
+                height: 3.5px;
+            }
+        }
     </style>
 </head>
 
 <body class="lang-zh painting-active">
+    <audio id="bg-music" loop>
+        <source src="your-music-file.mp3" type="audio/mpeg">
+    </audio>
 
+    <div id="music-control" class="music-player" onclick="toggleMusic()">
+        <div class="music-disk">
+            <div class="disk-center"></div>
+        </div>
+    </div>
     <canvas id="stardust-canvas"></canvas>
 
     <nav id="navbar" class="opacity-0 pointer-events-none transition-all flex justify-center items-center">
@@ -1091,6 +1182,21 @@
             if (window.scrollY > 80) navbar.classList.add('scrolled');
             else navbar.classList.remove('scrolled');
         });
+
+        let isPlaying = false;
+        const music = document.getElementById('bg-music');
+        const control = document.getElementById('music-control');
+
+        function toggleMusic() {
+            if (isPlaying) {
+                music.pause();
+                control.classList.remove('playing');
+            } else {
+                music.play();
+                control.classList.add('playing');
+            }
+            isPlaying = !isPlaying;
+        }
 
         function enterSite() {
             const overlay = document.getElementById('gate-overlay');
