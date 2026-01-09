@@ -3,7 +3,12 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+    <meta name="theme-color" content="#FAF7F2">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <title>Yilin & Zheyu - Wedding 2026</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap"
@@ -29,7 +34,8 @@
             font-family: var(--body-serif);
             font-weight: 400;
             overflow-x: hidden;
-            margin: 0;
+            min-height: 100vh;
+            min-height: 100dvh;
         }
 
         .font-script {
@@ -73,10 +79,18 @@
             content: '';
             position: absolute;
             inset: 0;
-            background-color: rgba(244, 250, 250, 0.2);
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(10px);
             z-index: -1;
+
+
+            background: radial-gradient(circle at center,
+                    rgba(255, 255, 255, 0.2) 20%,
+                    rgba(255, 253, 253, 0.6) 400%);
+
+
+            backdrop-filter: blur(2.5px);
+            -webkit-backdrop-filter: blur(2.5px);
+
+
         }
 
         .gate-envelope-container {
@@ -86,18 +100,22 @@
             max-width: 500px;
             padding: 5rem 1.5rem;
             text-align: center;
-            background-color: #fffbf6;
-            background-image: url('https://www.transparenttextures.com/patterns/natural-paper.png');
+            background-color: #fffdfa;
+            background-image:
+                url('https://www.transparenttextures.com/patterns/natural-paper.png'),
+                linear-gradient(145deg, #ffffff 0%, #fdf9f2 100%);
             background-blend-mode: multiply;
+            background-size: 300px, auto;
 
             box-shadow:
                 inset 0 0 60px rgba(166, 138, 86, 0.05),
                 0 40px 80px rgba(60, 50, 40, 0.2);
 
-            border: 0.5px solid rgb(255, 209, 244);
-            outline: 2.5px solid rgba(255, 167, 3, 0.15);
+            border: 0.5px solid rgba(166, 138, 86, 0.25);
+            outline: 2.5px solid rgba(166, 138, 86, 0.1);
             outline-offset: -12px;
             transition: all 0.8s ease;
+            overflow: visible;
         }
 
         .gate-envelope-container::before {
@@ -124,6 +142,16 @@
             pointer-events: none;
         }
 
+        .gate-envelope-container::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background-image: url('https://www.transparenttextures.com/patterns/sandpaper.png');
+            opacity: 0.08;
+            background-blend-mode: overlay;
+        }
+
         .gate-label {
             font-family: var(--french-serif);
             font-size: 0.5rem;
@@ -144,23 +172,38 @@
 
         .gate-names span {
             display: block;
-            padding-bottom: 0.05em;
-            margin-bottom: -0.1em;
+
+
+            padding-bottom: 0.1em;
+
+            margin-bottom: -0.25em;
+
+            padding-left: 0.1em;
+            padding-right: 0.1em;
 
             font-family: var(--script-font);
             background: linear-gradient(to bottom,
-                    #91743a 0%,
-                    #fddc8e 25%,
-                    #a68a56 50%,
-                    #ffdf87 75%,
-                    #91743a 100%);
+                    #8b7045 0%,
+                    #c5a367 22%,
+                    #fdfcf0 45%,
+                    #d4b37d 55%,
+                    #b18d4d 78%,
+                    #8b7045 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0px 2px 2px rgba(166, 138, 86, 0.2));
+
+            filter: drop-shadow(0px 1px 1.5px rgba(60, 50, 30, 0.3));
             background-size: 200% auto;
             animation: goldShine 6s linear infinite;
 
             overflow: visible;
+        }
+
+        .gate-names .gate-ampersand {
+            display: block;
+            font-size: 1.5rem;
+            margin: 0.5rem 0;
+            -webkit-text-fill-color: #a68a56;
         }
 
         .gate-names .gate-ampersand {
@@ -289,6 +332,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            padding-top: calc(1.5rem + env(safe-area-inset-top));
         }
 
         nav.scrolled {
@@ -499,7 +543,7 @@
 
                 <div class="mb-12">
                     <h3 class="font-french text-4xl md:text-6xl tracking-[0.2em] uppercase
-                           bg-gradient-to-b from-[#997b4a] via-[#f9e9be] to-[#997b4a] 
+                           bg-gradient-to-b from-[#997b4a] via-[#f3db9b] to-[#997b4a] 
                            bg-clip-text text-transparent 
                            filter drop-shadow-[0_1px_1px_rgba(166,138,86,0.3)]">
                         Save the Date
@@ -924,19 +968,24 @@
 
         function enterSite() {
             const overlay = document.getElementById('gate-overlay');
+            const navbar = document.getElementById('navbar');
+
+            window.scrollTo({ top: 0, behavior: 'instant' });
+
             overlay.classList.add('overlay-hidden');
 
-            const navbar = document.getElementById('navbar');
             navbar.classList.remove('opacity-0', 'pointer-events-none');
-
-            setTimeout(() => {
-                overlay.style.display = 'none';
-            }, 1800);
 
             setTimeout(() => {
                 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
             }, 500);
+
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                window.scrollTo(0, 0);
+            }, 1800);
         }
+
         function updateRSVPShine() {
             const rsvpBtn = document.querySelector('.btn-fancy-rsvp');
             if (!rsvpBtn) return;
