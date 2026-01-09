@@ -259,16 +259,40 @@
             text-transform: uppercase;
         }
 
+        /* --- 提示文字：全设备通用基础样式 --- */
         .gate-hint {
-            position: absolute;
-            bottom: 2.5rem;
+            /* 使用 fixed 确保它相对于屏幕定位，不受任何父级裁切影响 */
+            position: fixed;
             left: 0;
             right: 0;
+            text-align: center;
             font-family: var(--body-serif);
-            font-size: 10px;
-            letter-spacing: 0.4em;
+            font-size: 11px;
+            letter-spacing: 0.5em;
             text-transform: uppercase;
-            color: #ccc;
+            /* 核心：z-index 必须极高，确保压在图片（10）和遮罩（1000）之上 */
+            z-index: 1100;
+            pointer-events: none;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        /* 手机端：距离底部稍微高一点，避开系统小横条 */
+        @media (max-width: 767px) {
+            .gate-hint {
+                bottom: 12vh;
+                /* 距离底部 12% 的屏幕高度 */
+            }
+        }
+
+        /* 电脑端：距离底部近一点，显得更精致 */
+        @media (min-width: 768px) {
+            .gate-hint {
+                bottom: 5vh;
+                /* 距离底部 5% 的屏幕高度 */
+                font-size: 12px;
+                color: rgba(255, 255, 255, 0.7);
+            }
         }
 
         .gate-line {
@@ -480,19 +504,86 @@
 
         .gate-image-container {
             position: relative;
-            width: 95%;
-
-
-            @media (min-width: 768px) {
-                max-width: 850px;
-                width: auto;
-                max-height: 85vh;
-            }
-
             margin: 0 auto;
             z-index: 10;
             cursor: pointer;
             transition: all 0.8s cubic-bezier(0.2, 1, 0.2, 1);
+        }
+
+        @media (max-width: 767px) {
+            .gate-image-container {
+                width: 95%;
+                height: 50vh;
+                height: 50dvh;
+                overflow: hidden;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .gate-hint {
+                position: absolute;
+                bottom: 2rem;
+                left: 0;
+                right: 0;
+                text-align: center;
+                color: white;
+                font-size: 11px;
+                letter-spacing: 0.5em;
+                text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+            }
+        }
+
+        @media (min-width: 768px) {
+            .gate-image-container {
+                width: auto;
+                max-width: 850px;
+                max-height: 80vh;
+                overflow: visible;
+            }
+
+            .gate-hint {
+                position: absolute;
+                top: 100%;
+                margin-top: 2rem;
+                left: 0;
+                right: 0;
+                text-align: center;
+                color: rgba(255, 255, 255, 0.8);
+                font-size: 12px;
+                letter-spacing: 0.5em;
+            }
+        }
+
+        .gate-hint {
+            font-family: var(--body-serif);
+            text-transform: uppercase;
+            z-index: 20;
+            pointer-events: none;
+        }
+
+        .overlay-hidden .gate-image-container {
+            transform: scale(1.5);
+            opacity: 0;
+            transition: all 1.2s ease-in;
+        }
+
+        .gate-image-container.active {
+            animation: revealFocus 2.0s cubic-bezier(0.2, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes revealFocus {
+            0% {
+                filter: blur(20px) brightness(1.2);
+                transform: scale(0.9) translateY(10px);
+                opacity: 0;
+            }
+
+            100% {
+                filter: blur(0) brightness(1);
+                transform: scale(1) translateY(0);
+                opacity: 1;
+            }
         }
 
         .main-invitation-img {
@@ -500,31 +591,13 @@
             height: 100%;
             object-fit: contain;
             border-radius: 4px;
-            filter: drop-shadow(0 40px 80px rgba(0, 0, 0, 0.35));
-        }
 
-        @media (max-height: 900px) and (orientation: portrait) {
-            .gate-image-container {
-                width: 90%;
-            }
-        }
+            box-shadow:
+                0 1px 3px rgba(0, 0, 0, 0.25),
+                0 15px 35px rgba(60, 50, 40, 0.15),
+                0 40px 100px rgba(60, 50, 40, 0.2);
 
-        .gate-hint {
-            position: absolute;
-            bottom: -2.5rem;
-            left: 0;
-            right: 0;
-            text-align: center;
-            font-family: var(--body-serif);
-            font-size: 10px;
-            letter-spacing: 0.5em;
-            color: rgba(255, 255, 255, 0.7);
-        }
 
-        .overlay-hidden .gate-image-container {
-            transform: scale(1.5);
-            opacity: 0;
-            transition: all 1.2s ease-in;
         }
     </style>
 </head>
